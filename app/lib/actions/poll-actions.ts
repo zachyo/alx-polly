@@ -81,7 +81,7 @@ export async function submitVote(pollId: string, optionIndex: number) {
   } = await supabase.auth.getUser();
 
   // Optionally require login to vote
-  // if (!user) return { error: 'You must be logged in to vote.' };
+  if (!user) return { error: 'You must be logged in to vote.' };
 
   const { error } = await supabase.from("votes").insert([
     {

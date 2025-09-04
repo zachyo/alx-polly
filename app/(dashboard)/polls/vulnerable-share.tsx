@@ -10,8 +10,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Copy, Share2, Twitter, Facebook, Mail } from "lucide-react";
+import {
+  Copy,
+  Facebook,
+  Mail,
+  Share2,
+  Twitter,
+} from "lucide-react";
 import { toast } from "sonner";
+import DOMPurify from "isomorphic-dompurify";
 
 interface VulnerableShareProps {
   pollId: string;
@@ -23,10 +30,11 @@ export default function VulnerableShare({
   pollTitle,
 }: VulnerableShareProps) {
   const [shareUrl, setShareUrl] = useState("");
+  const sanitizedTitle = DOMPurify.sanitize(pollTitle);
 
   useEffect(() => {
     // Generate the share URL
-    const baseUrl = window.location.origin;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || window.location.origin;
     const pollUrl = `${baseUrl}/polls/${pollId}`;
     setShareUrl(pollUrl);
   }, [pollId]);
@@ -41,7 +49,7 @@ export default function VulnerableShare({
   };
 
   const shareOnTwitter = () => {
-    const text = encodeURIComponent(`Check out this poll: ${pollTitle}`);
+    const text = encodeURIComponent(`Check out this poll: ${sanitizedTitle}`);
     const url = encodeURIComponent(shareUrl);
     window.open(
       `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
@@ -58,7 +66,7 @@ export default function VulnerableShare({
   };
 
   const shareViaEmail = () => {
-    const subject = encodeURIComponent(`Poll: ${pollTitle}`);
+    const subject = encodeURIComponent(`Poll: ${sanitizedTitle}`);
     const body = encodeURIComponent(
       `Hi! I'd like to share this poll with you: ${shareUrl}`,
     );
