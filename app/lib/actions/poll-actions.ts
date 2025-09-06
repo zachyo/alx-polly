@@ -3,7 +3,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
-// CREATE POLL
+/**
+ * Creates a new poll with a question and options.
+ * @param {FormData} formData - The form data containing the poll question and options.
+ * @returns {Promise<{ error: string | null }>} An object with an error message if creation fails, otherwise null.
+ */
 export async function createPoll(formData: FormData) {
   const supabase = await createClient();
 
@@ -42,7 +46,10 @@ export async function createPoll(formData: FormData) {
   return { error: null };
 }
 
-// GET USER POLLS
+/**
+ * Fetches all polls created by the currently authenticated user.
+ * @returns {Promise<{ polls: any[], error: string | null }>} An object containing the user's polls or an error message.
+ */
 export async function getUserPolls() {
   const supabase = await createClient();
   const {
@@ -60,7 +67,11 @@ export async function getUserPolls() {
   return { polls: data ?? [], error: null };
 }
 
-// GET POLL BY ID
+/**
+ * Retrieves a specific poll by its unique ID.
+ * @param {string} id - The ID of the poll to retrieve.
+ * @returns {Promise<{ poll: any | null, error: string | null }>} An object containing the poll data or an error message.
+ */
 export async function getPollById(id: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -73,7 +84,12 @@ export async function getPollById(id: string) {
   return { poll: data, error: null };
 }
 
-// SUBMIT VOTE
+/**
+ * Records a user's vote on a poll.
+ * @param {string} pollId - The ID of the poll being voted on.
+ * @param {number} optionIndex - The index of the selected option.
+ * @returns {Promise<{ error: string | null }>} An object with an error message if voting fails, otherwise null.
+ */
 export async function submitVote(pollId: string, optionIndex: number) {
   const supabase = await createClient();
   const {
@@ -95,7 +111,11 @@ export async function submitVote(pollId: string, optionIndex: number) {
   return { error: null };
 }
 
-// DELETE POLL
+/**
+ * Removes a poll from the database.
+ * @param {string} id - The ID of the poll to delete.
+ * @returns {Promise<{ error: string | null }>} An object with an error message if deletion fails, otherwise null.
+ */
 export async function deletePoll(id: string) {
   const supabase = await createClient();
   const { error } = await supabase.from("polls").delete().eq("id", id);
@@ -104,7 +124,12 @@ export async function deletePoll(id: string) {
   return { error: null };
 }
 
-// UPDATE POLL
+/**
+ * Modifies an existing poll's question and options.
+ * @param {string} pollId - The ID of the poll to update.
+ * @param {FormData} formData - The form data containing the updated question and options.
+ * @returns {Promise<{ error: string | null }>} An object with an error message if the update fails, otherwise null.
+ */
 export async function updatePoll(pollId: string, formData: FormData) {
   const supabase = await createClient();
 

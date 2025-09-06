@@ -3,6 +3,11 @@
 import { createClient } from '@/lib/supabase/server';
 import { LoginFormData, RegisterFormData } from '../types';
 
+/**
+ * Handles user login by signing in with an email and password.
+ * @param {LoginFormData} data - The login form data containing email and password.
+ * @returns {Promise<{ error: string | null }>} An object with an error message if login fails, otherwise null.
+ */
 export async function login(data: LoginFormData) {
   const supabase = await createClient();
 
@@ -19,6 +24,11 @@ export async function login(data: LoginFormData) {
   return { error: null };
 }
 
+/**
+ * Creates a new user account.
+ * @param {RegisterFormData} data - The registration form data containing name, email, and password.
+ * @returns {Promise<{ error: string | null }>} An object with an error message if registration fails, otherwise null.
+ */
 export async function register(data: RegisterFormData) {
   const supabase = await createClient();
 
@@ -40,6 +50,10 @@ export async function register(data: RegisterFormData) {
   return { error: null };
 }
 
+/**
+ * Signs the current user out.
+ * @returns {Promise<{ error: string | null }>} An object with an error message if logout fails, otherwise null.
+ */
 export async function logout() {
   const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
@@ -49,12 +63,20 @@ export async function logout() {
   return { error: null };
 }
 
+/**
+ * Retrieves the currently authenticated user's data.
+ * @returns {Promise<User | null>} The user object if authenticated, otherwise null.
+ */
 export async function getCurrentUser() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
   return data.user;
 }
 
+/**
+ * Fetches the current user session.
+ * @returns {Promise<Session | null>} The session object if a session exists, otherwise null.
+ */
 export async function getSession() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getSession();

@@ -81,7 +81,29 @@ npm install
 
 ### 3. Environment Variables
 
-The project uses Supabase for its backend. An environment file `.env.local` is needed.Use the keys you created during the Supabase setup process.
+The project uses Supabase for its backend. You'll need to set up a Supabase project and configure your environment variables.
+
+1.  **Create a Supabase Project**:
+    *   Go to [supabase.com](https://supabase.com/) and sign in or create an account.
+    *   Create a new project. You can choose the free tier for this.
+
+2.  **Get Your API Keys**:
+    *   In your Supabase project dashboard, go to **Project Settings** (the gear icon in the left sidebar).
+    *   Click on **API** in the settings menu.
+    *   You will find your **Project URL** and your **Project API keys**. You need the `anon` `public` key.
+
+3.  **Create the Environment File**:
+    *   In the root of your local project directory, create a file named `.env.local`.
+
+4.  **Set Environment Variables**:
+    *   Open `.env.local` and add the following lines, replacing the placeholders with your actual Supabase URL and anon key:
+
+    ```
+    NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_PROJECT_URL
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+    ```
+
+    *   **Note on Service Role Key**: You will also see a `service_role` secret key in your Supabase API settings. This key has elevated privileges and should be used with extreme caution on the server-side only. For this project, you can leave the `SUPABASE_SERVICE_ROLE_KEY` in `.env.local` as its default placeholder if you are not performing service-level actions.
 
 ### 4. Running the Development Server
 
